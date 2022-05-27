@@ -30,9 +30,8 @@ void setup()
 
 void loop()
 { // Hooked to Idle Task, will run when CPU is Idle
-  Serial.println(F("Loop function"));
   delay(50);
-      vTaskResume(TaskHandle_4);
+      vTaskResume(TaskHandle_2);
 }
 
 /* Task1 with priority 3 */
@@ -52,7 +51,7 @@ if (Serial.available()) {
      }
     analogWrite(motorPin, 255);
     analogWrite(valvePin, 255);
-    vTaskResume(TaskHandle_4);
+    vTaskResume(TaskHandle_2);
     vTaskDelete(NULL);
 }
 
