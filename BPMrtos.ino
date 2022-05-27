@@ -7,8 +7,6 @@
 
 TaskHandle_t TaskHandle_1;
 TaskHandle_t TaskHandle_2;
-TaskHandle_t TaskHandle_3;
-TaskHandle_t TaskHandle_4;
 
 Adafruit_MPRLS mpr = Adafruit_MPRLS(RESET_PIN, EOC_PIN);
 int motorPin = 3, valvePin = 4;
@@ -27,8 +25,6 @@ void setup()
   /* Create 4-tasks with priorities 1-4. Capture the Task details to respective handlers */
   xTaskCreate(MyTask1, "Task1", 100, NULL, 1, &TaskHandle_1);
   xTaskCreate(MyTask2, "Task2", 100, NULL, 2, &TaskHandle_2);  
-  xTaskCreate(MyTask3, "Task3", 100, NULL, 3, &TaskHandle_3);
-  xTaskCreate(MyTask4, "Task4", 100, NULL, 4, &TaskHandle_4); 
 }
 
 
@@ -39,29 +35,10 @@ void loop()
       vTaskResume(TaskHandle_4);
 }
 
-
-/* Task1 with priority 1 */
+/* Task1 with priority 3 */
 static void MyTask1(void* pvParameters)
 {
-    Serial.println("HI");
-    delay(100);  
-}
-
-
-/* Task2 with priority 2 */
-static void MyTask2(void* pvParameters)
-{        
-    
-}
-
-
-/* Task3 with priority 3 */
-static void MyTask3(void* pvParameters)
-{
-
-    vTaskSuspend(TaskHandle_1);
     vTaskSuspend(TaskHandle_2);
-    vTaskSuspend(TaskHandle_4);
 
     String incomingByte;
     while(1)
@@ -79,15 +56,15 @@ if (Serial.available()) {
     vTaskDelete(NULL);
 }
 
-/* Task4 with priority 4 */
-static void MyTask4(void* pvParameters)
+/* Task2 with priority 4 */
+static void MyTask2(void* pvParameters)
 {
     float nMax = 0;
     int count = 0;
     bool vFlag = false;
     bool dFlated = false;
-    vTaskSuspend(TaskHandle_2);
-    vTaskSuspend(TaskHandle_3);
+    vTaskSuspend(TaskHandle_1);
+
     Serial.print("psi"); 
     Serial.print(" \t");
     Serial.print("pHg");
